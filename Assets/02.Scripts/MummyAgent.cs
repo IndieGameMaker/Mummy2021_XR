@@ -51,6 +51,13 @@ public class MummyAgent : Agent
                                        0.05f,
                                        Random.Range(-4.0f, 4.0f));
 
+        StartCoroutine(RevertMaterial());
+    }
+
+    IEnumerator RevertMaterial()
+    {
+        yield return new WaitForSeconds(0.2f);
+        floorRd.material = originMt;
     }
 
     // 주변 환경정보를 관측, 수집, 전달
@@ -94,6 +101,8 @@ public class MummyAgent : Agent
 
         if (coll.collider.CompareTag("DEAD_ZONE"))
         {
+            floorRd.material = badMt;
+
             // 잘못된 행동에 대한 마이너스 보상
             SetReward(-1.0f);
             // 학습을 종료
@@ -102,6 +111,8 @@ public class MummyAgent : Agent
 
         if (coll.collider.CompareTag("TARGET"))
         {
+            floorRd.material = goodMt;
+
             // 올바른 행동에 대한 플러스 보상
             SetReward(+1.0f);
             // 학습을 종료
