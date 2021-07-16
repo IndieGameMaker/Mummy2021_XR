@@ -13,11 +13,17 @@ using Unity.MLAgents.Actuators;
 
 public class MummyAgent : Agent
 {
+    private Transform tr;
+    private Rigidbody rb;
+    private Transform targetTr;
+
 
     // 초기화 작업을 위해 한번만 호출
     public override void Initialize()
     {
-
+        tr = GetComponent<Transform>();
+        rb = GetComponent<Rigidbody>();
+        targetTr = tr.parent.Find("Target")?.transform;
     }
 
     // 에피소드(학습단위)가 시작될때마다 호출
