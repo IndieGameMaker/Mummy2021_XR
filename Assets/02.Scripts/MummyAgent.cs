@@ -48,18 +48,32 @@ public class MummyAgent : Agent
     // 주변 환경정보를 관측, 수집, 전달
     public override void CollectObservations(VectorSensor sensor)
     {
-
+        sensor.AddObservation(targetTr.localPosition);  // 3 (x,y,z)
+        sensor.AddObservation(tr.localPosition);        // 3
+        sensor.AddObservation(rb.velocity.x);           // 1
+        sensor.AddObservation(rb.velocity.z);           // 1
     }
 
     // 정책(브레인)으로 전달 받은대로 행동
     public override void OnActionReceived(ActionBuffers actions)
     {
+        float h = actions.ContinuousActions[0]; // 좌우 화살표 키 -1.0f ~ +1.0f
+        float v = actions.ContinuousActions[1]; // 상하 화살표 키 -1.0f ~ +1.0f
 
+        Vector3 dir = (Vector3.forward * v) + (Vector3.right * h);
+        rb.AddForce(dir.normalized * 50.0f);
+
+        SetReward(-0.001f);
     }
 
     // 개발자가 미리 테스트하기 위한 메소드 && 모방학습
     public override void Heuristic(in ActionBuffers actionsOut)
     {
+        //Input.GetAxis("Horizontal"); // -1.0f ~ 0.0f ~ +1.0f 연속적인 값 = Continues
+        //Input.GetAxisRaw("Horizontal"); // -1.0f, 0.0f, +1.0f 이산 = Discrete
 
+        var actions = actionsOut.ContinuousActions;
+        actions[0] = Input.GetAxis("Horizontal");
+        actions[1] = Input.GetAxis("Vertical");
     }
 }
