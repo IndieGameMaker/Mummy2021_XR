@@ -76,4 +76,28 @@ public class MummyAgent : Agent
         actions[0] = Input.GetAxis("Horizontal");
         actions[1] = Input.GetAxis("Vertical");
     }
+
+    void OnCollisionEnter(Collision coll)
+    {
+        /*
+            SetReward
+            AddReward
+        */
+
+        if (coll.collider.CompareTag("DEAD_ZONE"))
+        {
+            // 잘못된 행동에 대한 마이너스 보상
+            SetReward(-1.0f);
+            // 학습을 종료
+            EndEpisode();
+        }
+
+        if (coll.collider.CompareTag("TARGET"))
+        {
+            // 올바른 행동에 대한 플러스 보상
+            SetReward(+1.0f);
+            // 학습을 종료
+            EndEpisode();
+        }
+    }
 }
