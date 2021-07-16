@@ -17,6 +17,11 @@ public class MummyAgent : Agent
     private Rigidbody rb;
     private Transform targetTr;
 
+    private Material originMt;
+    public Material goodMt;
+    public Material badMt;
+
+    private Renderer floorRd;
 
     // 초기화 작업을 위해 한번만 호출
     public override void Initialize()
@@ -24,6 +29,9 @@ public class MummyAgent : Agent
         tr = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         targetTr = tr.parent.Find("Target")?.transform;
+        floorRd = tr.parent.Find("Floor")?.GetComponent<MeshRenderer>();
+
+        originMt = floorRd.material;
     }
 
     // 에피소드(학습단위)가 시작될때마다 호출
