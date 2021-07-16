@@ -29,6 +29,19 @@ public class MummyAgent : Agent
     // 에피소드(학습단위)가 시작될때마다 호출
     public override void OnEpisodeBegin()
     {
+        // Rigidbody 물리력을 초기화
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        // 타겟의 위치를 변경
+        targetTr.localPosition = new Vector3(Random.Range(-4.0f, 4.0f),
+                                             0.55f,
+                                             Random.Range(-4.0f, 4.0f));
+
+        // Agent 위치 변경
+        tr.localPosition = new Vector3(Random.Range(-4.0f, 4.0f),
+                                       0.05f,
+                                       Random.Range(-4.0f, 4.0f));
 
     }
 
